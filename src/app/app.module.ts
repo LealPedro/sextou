@@ -9,6 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CadastroPage } from '../pages/cadastro/cadastro';
 import { BuscaPage } from '../pages/busca/busca';
+import { ProdutoProvider } from '../providers/produto/produto';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { BuscaPage } from '../pages/busca/busca';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -31,7 +34,8 @@ import { BuscaPage } from '../pages/busca/busca';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ProdutoProvider
   ]
 })
 export class AppModule {}

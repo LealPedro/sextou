@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ProdutoProvider } from '../../providers/produto/produto';
 
 /**
  * Generated class for the BuscaPage page.
@@ -12,14 +13,33 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @Component({
   selector: 'page-busca',
   templateUrl: 'busca.html',
+  providers: [
+    ProdutoProvider
+  ]
 })
 export class BuscaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private busca: string;
+
+  produtos = [];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private prodPvr: ProdutoProvider) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BuscaPage');
+  }
+
+  listaProduto() {
+    this.prodPvr.getProduct(this.busca).subscribe(
+      prod => {
+        let resultado = (prod as any)._body;
+        let json = JSON.parse(resultado);
+        this.produtos = json;
+      },
+      error => {
+        console.log((error as any)._body);
+      } 
+    );
   }
 
 }

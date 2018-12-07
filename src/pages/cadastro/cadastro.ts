@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { ProdutoProvider } from '../../providers/produto/produto';
 
 /**
  * Generated class for the CadastroPage page.
@@ -12,14 +13,30 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @Component({
   selector: 'page-cadastro',
   templateUrl: 'cadastro.html',
+  providers: [
+    ProdutoProvider
+  ]
+
 })
 export class CadastroPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  nome: string;
+  tamanho: string;
+  valor: number;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private prodPvr: ProdutoProvider, private toast: ToastController ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CadastroPage');
+  ionViewDidLoad() {}
+
+  createProduct() {
+    this.prodPvr.setProduct(this.nome, this.tamanho, this.valor)
+    .then((result: any) => {
+      this.toast.create({message: 'Produto cadastrado com sucesso. ', position: 'botton', duration: 3000 }).present();
+    })
+    .catch((error: any) => {
+      this.toast.create({ message: 'Erro ao cadastrar produto. Erro: ' + error.error, position: 'botton', duration: 3000 }).present();
+    });
   }
 
 }
